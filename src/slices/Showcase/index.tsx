@@ -35,7 +35,7 @@ const Showcase = ({ slice }: ShowcaseProps): JSX.Element => {
           )
         }}
       />
-      <div className="grid mt-16 items-center rounded-xl border border-blue-50/20 bg-gradient-to-b from-slate-50/15 to-slate-50/5 px-8 py-8 backdrop-blur-sm lg: grid-cols-3 lg:py-12">
+      <div className="grid mt-16 items-center rounded-xl border border-blue-50/20 bg-gradient-to-b from-slate-50/15 to-slate-50/5 px-8 py-8 backdrop-blur-sm lg: grid-cols-3 lg:py-12 gap-8 lg:gap-0">
         <div className="">
           <div className="w-fit rounded-lg bg-blue-500/35 p-4 text-3xl">
           {slice.primary.icon && icons[slice.primary.icon]}
@@ -46,7 +46,8 @@ const Showcase = ({ slice }: ShowcaseProps): JSX.Element => {
           </div>
           <div className="mt-4 max-w-xl prose prose-invert">
             <PrismicRichText field={slice.primary.body} />
-            </div>
+          </div>
+          
           <ButtonLink field={slice.primary.button_link} className="mt-6">{slice.primary.button_text || "Learn More"}</ButtonLink>
         </div>
         <PrismicNextImage field={slice.primary.image} className={clsx(
