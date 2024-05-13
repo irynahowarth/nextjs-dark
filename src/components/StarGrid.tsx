@@ -1,8 +1,107 @@
-// src/components/StarGrid.tsx
+'use client'
+import gsap from 'gsap'
+import { useGSAP } from '@gsap/react'
+import { useRef } from 'react'
+import usePreferseReducedMotion from "@/app/hooks/usePrefersReducedMotion"
 
 export default function StarGrid() {
+  const container = useRef(null);
+  const prefersReducedMotion = usePreferseReducedMotion()
+  
+  gsap.registerPlugin(useGSAP)
+  
   const grid = [14, 30] as const;
+  useGSAP(() => {
+    if (prefersReducedMotion) {
+      gsap.set(container.current, { opacity: 1 })
+      gsap.set(".set-grid-item", {
+        opacity: 0.2,
+        scale: 1
+      })
+      return;
+    }
 
+    gsap.set(".star-grid-item", {
+      opacity: 0,
+      transformOrigin: 'center',
+      color: '#fff'
+    })
+    gsap.set(container.current, { opacity: 1 })
+    
+    const tl = gsap.timeline();
+
+    //Entrance animation
+    tl.to('.star-grid-item', {
+      keyframes: [
+        {
+          opacity: 0,
+          duration:0
+        },
+        {
+          opacity: 0.4,
+          rotate: "+=180",
+          color: "#ffd057",
+          scale: 3,
+          duration: 0.6,
+          stagger: {
+            amount: 2,
+            grid: grid,
+            from: "center"
+          }
+        },
+        {
+          opacity: 0.2,
+          rotate: "+=180",
+          color: "#fff",
+          scale: 1,
+          delay: -2,
+          duration: 0.6,
+          stagger: {
+            amount: 2,
+            grid: grid,
+            from: "center"
+          }
+        }
+      ]
+    })
+
+    //Loop animation
+
+    tl.to('.star-grid-item', {
+      delay: 8,
+      repeat: -1,
+      repeatDelay: 8,
+      keyframes: [
+        {
+          opacity: 0.4,
+          rotate: "+=180",
+          color: "#ffd057",
+          scale: 3,
+          duration: 0.6,
+          stagger: {
+            amount: 2,
+            grid: grid,
+            from: "center"
+          }
+        },
+        {
+          opacity: 0.2,
+          rotate: "+=180",
+          color: "#fff",
+          scale: 1,
+          delay: -2,
+          duration: 0.6,
+          stagger: {
+            amount: 2,
+            grid: grid,
+            from: "center"
+          }
+        }
+      ]
+    })
+
+
+  },{scope:container})
   return (
      <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -10,11 +109,11 @@ export default function StarGrid() {
       viewBox="0 0 935 425"
       className="absolute -top-14 -z-10"
       id="star-grid"
-      // ref={container}
-      // opacity={0}
+      opacity={0}
       style={{
         maskImage: "linear-gradient(black, transparent)",
       }}
+      ref={container}
     >
       {/* <defs>
         <path
